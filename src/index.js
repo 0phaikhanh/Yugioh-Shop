@@ -1,12 +1,12 @@
-import React from 'react' // nạp thư viện react
-import ReactDOM from 'react-dom' // nạp thư viện react-dom
+import React from 'react';
+import ReactDOM from 'react-dom/client';  // Import từ 'react-dom/client'
+import './index.css';
+import App from './App';
 
-// Tạo component App
-import App from './App';  // Chúng ta sẽ tạo App component dưới đây
-
-ReactDOM.render(
+// Sử dụng React 18 với createRoot
+const root = ReactDOM.createRoot(document.getElementById('root'));  // Tạo root mới
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

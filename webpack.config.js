@@ -17,13 +17,24 @@ module.exports = {
       {
         test: /\.css$/, // Sử dụng style-loader, css-loader cho file .css
         use: ["style-loader", "css-loader"]
-      }
-    ]
+      },
+      {
+        test: /\.(jpg|jpeg|png|gif|svg)$/i, // Các loại hình ảnh cần xử lý
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[hash:8].[ext]", // Đặt tên tệp hình ảnh sau khi Webpack xử lý
+              outputPath: "assets/", // Đặt đường dẫn đầu ra
+            },
+          },
+        ],
+      },
+    ],
   },
-  // Chứa các plugins sẽ cài đặt trong tương lai
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html"
-    })
-  ]
+      template: "./public/index.html", // Chỉ ra tệp HTML của bạn
+    }),
+  ],
 };

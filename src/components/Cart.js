@@ -1,58 +1,39 @@
-// src/components/Cart.js
-import React, { useState } from 'react';
+import React from 'react';
 
-const Cart = () => {
-    const [cart, setCart] = useState([
-        { id: 1, name: 'Thẻ bài Yu-Gi-Oh! 1', price: 10000, quantity: 2 },
-        { id: 2, name: 'Thẻ bài Yu-Gi-Oh! 2', price: 20000, quantity: 1 },
-    ]);
+const Cart = ({ cart, setCart }) => {
+  // Hàm xóa sản phẩm khỏi giỏ hàng
+  const removeFromCart = (productId) => {
+    const updatedCart = cart.filter(item => item.id !== productId); // Loại bỏ sản phẩm theo ID
+    setCart(updatedCart); // Cập nhật lại giỏ hàng
+    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Lưu giỏ hàng vào localStorage
+  };
 
-    const removeItem = (id) => {
-        setCart(cart.filter(item => item.id !== id));
-    };
-
-    const updateQuantity = (id, quantity) => {
-        setCart(cart.map(item => 
-            item.id === id ? { ...item, quantity: quantity } : item
-        ));
-    };
-
-    const calculateTotal = () => {
-        return cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    };
-
-    return (
-        <div className="cart">
-            <h2>Giỏ hàng của bạn</h2>
-            <div className="cart-items">
-                {cart.length > 0 ? (
-                    cart.map((item) => (
-                        <div key={item.id} className="cart-item">
-                            <p>{item.name}</p>
-                            <p>Giá: {item.price} VND</p>
-                            <p>Số lượng: 
-                                <input 
-                                    type="number" 
-                                    min="1" 
-                                    value={item.quantity} 
-                                    onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                                />
-                            </p>
-                            <button onClick={() => removeItem(item.id)} className="remove-btn">Xóa</button>
-                        </div>
-                    ))
-                ) : (
-                    <p>Giỏ hàng của bạn đang trống.</p>
-                )}
+  return (
+    <div className="cart-container">
+      <h2>Giỏ Hàng</h2>
+      {cart.length === 0 ? (
+        <p>Giỏ hàng của bạn đang trống!</p>
+      ) : (
+        <div className="cart-items">
+          {cart.map((product) => (
+            <div key={product.id} className="cart-item">
+              <img src={product.image} alt={product.name} className="cart-item-image" />
+              <div className="cart-item-info">
+                <h3>{product.name}</h3>
+                <p>Giá: {product.price} VNĐ</p>
+                <button onClick={() => removeFromCart(product.id)} className="remove-btn">
+                  Xóa
+                </button>
+              </div>
             </div>
-            {cart.length > 0 && (
-                <>
-                    <p>Tổng cộng: {calculateTotal()} VND</p>
-                    <button className="btn">Thanh toán</button>
-                </>
-            )}
+          ))}
         </div>
-    );
+      )}
+      <div className="cart-total">
+        <h3>Tổng tiền: {cart.reduce((total, product) => total + product.price, 0)} VNĐ</h3>
+      </div>
+    </div>
+  );
 };
 
 export default Cart;

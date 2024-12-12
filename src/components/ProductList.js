@@ -1,32 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import darkMagicianImg from '../assets/dark_magiccian.jpg';
+import blueEyesWhiteDragonImg from '../assets/blueEyesWhiteDragon.jpg';
+import redEyesBlackDragonImg from '../assets/redEyesBlackDragon.jpg';
 
-const ProductList = () => {
-    const [products, setProducts] = useState([]);
+const ProductList = ({ addToCart }) => {
+  const products = [
+    { id: 1, name: 'Dark Magician', price: 500, image: darkMagicianImg },
+    { id: 2, name: 'Blue-Eyes White Dragon', price: 700, image: blueEyesWhiteDragonImg },
+    { id: 3, name: 'Red-Eyes Black Dragon', price: 600, image: redEyesBlackDragonImg },
+  ];
 
-    useEffect(() => {
-        // Giả sử bạn đã có API hoặc dữ liệu tĩnh
-        const fetchProducts = async () => {
-            const productData = [
-                { id: 1, name: 'Thẻ bài Yu-Gi-Oh! 1', price: 10000 },
-                { id: 2, name: 'Thẻ bài Yu-Gi-Oh! 2', price: 20000 },
-            ];
-            setProducts(productData);
-        };
-        fetchProducts();
-    }, []);
-
-    return (
-        <div>
-            <h2>Danh sách sản phẩm</h2>
-            <ul>
-                {products.map((product) => (
-                    <li key={product.id}>
-                        {product.name} - {product.price} VND
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <div className="product-list-container">
+      <h2>Sản phẩm</h2>
+      <div className="product-items">
+        {products.map((product) => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} className="product-image" />
+            <h3>{product.name}</h3>
+            <p>Giá: {product.price} VNĐ</p>
+            <button onClick={() => addToCart(product)} className="add-to-cart-btn">Thêm vào giỏ</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default ProductList;
